@@ -1,2 +1,2 @@
-# SFG_Pet_Clinic
+# SfgPetClinic
 SpringFrameworkGuru Pet Clinic 
