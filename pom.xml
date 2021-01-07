@@ -14,7 +14,7 @@
     </parent>
     <groupId>guru.springframework5</groupId>
     <artifactId>sfg_pet_clinic</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>sfg_pet_clinic</name>
     <description>SFG Pet Clinic Project</description>
 
@@ -44,6 +44,6 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/prernark/sfg_pet_clinic.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>sfg_pet_clinic-0.0.1</tag>
   </scm>
 </project>
