@@ -2,7 +2,7 @@ package guru.springframework5.sfg_pet_clinic.services.map;
 
 import guru.springframework5.sfg_pet_clinic.model.Pet;
 
-public class PetServiceImpl extends AbstractMapService<Pet, Long> {
+public class PetServiceMapImpl extends AbstractMapService<Pet, Long> {
 
 
     @Override
