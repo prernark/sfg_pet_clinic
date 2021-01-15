@@ -1,10 +1,20 @@
 package guru.springframework5.sfg_pet_clinic.services.map;
 
 import guru.springframework5.sfg_pet_clinic.model.Vet;
+import guru.springframework5.sfg_pet_clinic.services.VetService;
 
-public class VetServiceMapImpl extends AbstractMapService<Vet, Long>{
+public class VetServiceMapImpl extends AbstractMapService<Vet, Long> implements VetService {
     @Override
     public Vet save(Vet object) {
         return super.save(object.getId(), object);
+    }
+
+    @Override
+    public String toString() {
+        String toStr = "";
+        for (Long key: map.keySet()){
+            toStr += map.get(key).getFirstName() + " " + map.get(key).getLastName() + "\n";
+        }
+        return toStr;
     }
 }

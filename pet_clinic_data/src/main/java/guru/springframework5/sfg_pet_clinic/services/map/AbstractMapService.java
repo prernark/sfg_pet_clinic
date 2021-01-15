@@ -1,13 +1,11 @@
 package guru.springframework5.sfg_pet_clinic.services.map;
 
-import guru.springframework5.sfg_pet_clinic.services.CrudService;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractMapService<T, ID> implements CrudService<T, ID> {
+public abstract class AbstractMapService<T, ID> {//implements CrudService<T, ID> {
     protected Map<ID, T> map = new HashMap<>();
 
     public Set<T> findAll(){
