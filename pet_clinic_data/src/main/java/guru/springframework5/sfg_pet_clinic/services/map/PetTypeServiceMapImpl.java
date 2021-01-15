@@ -9,6 +9,6 @@ public class PetTypeServiceMapImpl extends AbstractMapService<PetType, Long> imp
 
     @Override
     public PetType save(PetType object) {
-        return super.save(object.getId(), object);
+        return super.save(object);
     }
 }
