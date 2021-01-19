@@ -8,23 +8,24 @@ import java.util.*;
 public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {//implements CrudService<T, ID> {
     protected Map<Long, T> map = new HashMap<>();
 
-    public Set<T> findAll(){
+    public Set<T> findAll() {
 //        return (Set<T>)map.entrySet();
         return new HashSet<>(map.values());
     }
 
-    public T findById(ID id){
+    public T findById(ID id) {
         return map.get(id);
     }
 
-    public T save(T object){
-        if (object != null){
-            if (object.getId() == null){
+    public T save(T object) {
+        if (object != null) {
+            if (object.getId() == null) {
                 object.setId(getNextId());
             }
             map.put(object.getId(), object);
+        } else {
+            throw new RuntimeException("Object Cannot be null");
         }
-        else { throw new RuntimeException("Object Cannot be null");}
 //        return (save(getNextId(), object));
         return object;
     }
@@ -34,19 +35,19 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
 //        return object;
 //    }
 
-    public void deleteById(ID id){
+    public void deleteById(ID id) {
         map.remove(id);
     }
 
-    public void delete(T object){
+    public void delete(T object) {
         map.entrySet().removeIf(entry -> entry.getValue().equals(object));
     }
 
-    private Long getNextId(){
+    private Long getNextId() {
         Long id = null;
         try {
             id = Collections.max(map.keySet()) + 1;
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             id = 1L;
         }
         return id;

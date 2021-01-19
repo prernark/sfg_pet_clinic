@@ -29,7 +29,7 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner, Long> impleme
     @Override
     public String toString() {
         String toStr = "";
-        for (Long key: map.keySet()){
+        for (Long key : map.keySet()) {
             toStr += map.get(key).getFirstName() + " " + map.get(key).getLastName() + "\n";
         }
         return toStr;
