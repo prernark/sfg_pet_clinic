@@ -15,7 +15,7 @@ public class VetsController {
 
     @RequestMapping({"/vets", "/vets/index", "/vets/index.html"})
     public String listOfVets(Model model) {
-        model.addAttribute("vets",vetService.findAll());
+        model.addAttribute("vets", vetService.findAll());
         return "Vets/index"; //This string corresponds to index.html in the Vets dir of templates
     }
 }

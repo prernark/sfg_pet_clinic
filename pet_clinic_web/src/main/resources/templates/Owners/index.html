@@ -6,24 +6,23 @@
 </head>
 <body>
 <!--/*@thymesVar id="owner" type = "guru.springframework5.sfg_pet_clinic.model.Owner"*/-->
-    <h1 th:text="'List of Owners'">Owners List</h1> <!--The text needs to be within ''-->
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="owner:${owners}">
-            <td th:text="${owner.id}">1</td>
-            <td th:text="${owner.firstName}">xxx</td>
-            <td th:text="${owner.lastName}">yyy</td>
-        </tr>
-        </tbody>
-    </table>
-
+<h1 th:text="'List of Owners'">Owners List</h1> <!--The text needs to be within ''-->
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="owner:${owners}">
+        <td th:text="${owner.id}">1</td>
+        <td th:text="${owner.firstName}">xxx</td>
+        <td th:text="${owner.lastName}">yyy</td>
+    </tr>
+    </tbody>
+</table>
 
 
 </body>

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping ("/owner") //Instead of typing owner down several times we can say it once here at Class level
+@RequestMapping("/owner") //Instead of typing owner down several times we can say it once here at Class level
 @Controller
 public class OwnerController {
     private final OwnerService ownerService;
@@ -16,7 +16,7 @@ public class OwnerController {
 
     //    @RequestMapping({"/owner", "/owner/index", "/owner/index.html"})
     @RequestMapping({"", "/", "/index", "/index.html"}) //Dont need above coz of RequestMapping above
-    public String listOfOwners(Model model){
+    public String listOfOwners(Model model) {
         model.addAttribute("owners", ownerService.findAll());
         return "Owners/index";//This string corresponds to index.html in the Owner dir of templates
     }
