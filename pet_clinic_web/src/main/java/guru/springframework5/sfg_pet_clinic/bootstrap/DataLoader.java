@@ -1,6 +1,7 @@
 package guru.springframework5.sfg_pet_clinic.bootstrap;
 
 import guru.springframework5.sfg_pet_clinic.model.Owner;
+import guru.springframework5.sfg_pet_clinic.model.Pet;
 import guru.springframework5.sfg_pet_clinic.model.PetType;
 import guru.springframework5.sfg_pet_clinic.model.Vet;
 import guru.springframework5.sfg_pet_clinic.services.OwnerService;
@@ -8,6 +9,8 @@ import guru.springframework5.sfg_pet_clinic.services.PetTypeService;
 import guru.springframework5.sfg_pet_clinic.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -23,18 +26,57 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Loading PetTypes....");
+        PetType dog = new PetType();
+        dog.setName("Dog");
+        //NOW I WANT TO USE THIS PETTYPE lateron HENCE SAVE IT
+        PetType savedDogPetType = petTypeService.save(dog);
+
+        PetType cat = new PetType();
+        cat.setName("Cat");
+        PetType savedCatPetType = petTypeService.save(cat);
+        System.out.println("PetTypes loaded....");
+        System.out.println(petTypeService.toString());
+
         System.out.println("Loading owners....");
         Owner owner = new Owner();
 //        owner.setId(1L);
         owner.setFirstName("Prerna");
         owner.setLastName("Gupta");
-        ownerService.save(owner);
+        owner.setAddress("123 Sutton Lane");
+        owner.setCity("London");
+        owner.setTelephone("123456");
 
+        Pet myPet = new Pet();
+        myPet.setName("Nina");
+        myPet.setPetType(savedDogPetType);
+        myPet.setOwner(owner);
+        myPet.setBirthDate(LocalDate.now());
+        owner.getPetSet().add(myPet);
+        ownerService.save(owner);
+        System.out.println(owner.getId()+" "+owner.getFirstName()+" "+
+                owner.getLastName()+" "+owner.getAddress()+" "+owner.getCity()+
+                owner.getTelephone()+" "+owner.getPetSet().iterator().next().getName());
         owner = new Owner();
 //        owner.setId(2L);
         owner.setFirstName("Rahul");
         owner.setLastName("Khole");
+        owner.setAddress("789 MG Road");
+        owner.setCity("Pune");
+        owner.setTelephone("987654");
+
+        myPet = new Pet();
+        myPet.setName("Butch");
+        myPet.setPetType(savedCatPetType);
+        myPet.setOwner(owner);
+        myPet.setBirthDate(LocalDate.now());
+        owner.getPetSet().add(myPet);
+
         ownerService.save(owner);
+        System.out.println(owner.getId()+" "+owner.getFirstName()+" "+
+                owner.getLastName()+" "+owner.getAddress()+" "+owner.getCity()+
+                owner.getTelephone()+" "+owner.getPetSet().iterator().next().getPetType().getName());
+
         System.out.println("Owners loaded....");
         System.out.println(ownerService.toString());
 
@@ -52,17 +94,5 @@ public class DataLoader implements CommandLineRunner {
         vetService.save(vet);
         System.out.println("Vets loaded....");
         System.out.println(vetService.toString());
-
-        System.out.println("Loading PetTypes....");
-        PetType dog = new PetType();
-        dog.setName("Dog");
-        //NOW I WANT TO USE THIS PETTYPE lateron HENCE SAVE IT
-        PetType savedDogPetType = petTypeService.save(dog);
-
-        PetType cat = new PetType();
-        cat.setName("Cat");
-        PetType savedCatPetType = petTypeService.save(cat);
-        System.out.println("PetTypes loaded....");
-        System.out.println(petTypeService.toString());
     }
 }
