@@ -7,5 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PetTypeServiceMapImpl extends AbstractMapService<PetType, Long> implements PetTypeService {
 
+    public String toString(){
+        String str = "";
+        for (Long key : map.keySet()){
+            str += map.get(key).getName() + "\n";
+        }
+        return str;
+    }
 
 }
