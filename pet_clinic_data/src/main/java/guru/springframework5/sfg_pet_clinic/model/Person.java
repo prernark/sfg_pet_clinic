@@ -1,7 +1,14 @@
 package guru.springframework5.sfg_pet_clinic.model;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class Person extends BaseEntity {
+    @Column(name = "first_name") //Hibernate by default uses snake case. We are only enforcing it here.
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
 
     public String getFirstName() {
