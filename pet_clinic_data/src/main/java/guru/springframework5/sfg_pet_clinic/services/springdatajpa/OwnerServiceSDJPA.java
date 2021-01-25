@@ -18,15 +18,17 @@ public class OwnerServiceSDJPA extends AbstractServiceSDJPA<Owner, Long> impleme
         this.ownerRepository = ownerRepository;
     }
 
+    public CrudRepository<Owner, Long> getCrudRepository() {
+        return ownerRepository;
+    }
+
     @Override
     //we will implement this in the OwnerRepository
     public Owner findByLastName(String lastName) {
         return ownerRepository.findByLastName(lastName);
     }
 
-    public CrudRepository<Owner, Long> getCrudRepository() {
-        return ownerRepository;
-    }
+
 //
 //    @Override
 //    public Set<Owner> findAll() {
