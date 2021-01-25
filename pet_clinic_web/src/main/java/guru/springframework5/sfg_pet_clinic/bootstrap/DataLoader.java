@@ -1,10 +1,7 @@
 package guru.springframework5.sfg_pet_clinic.bootstrap;
 
 import guru.springframework5.sfg_pet_clinic.model.*;
-import guru.springframework5.sfg_pet_clinic.services.OwnerService;
-import guru.springframework5.sfg_pet_clinic.services.PetTypeService;
-import guru.springframework5.sfg_pet_clinic.services.SpecialityService;
-import guru.springframework5.sfg_pet_clinic.services.VetService;
+import guru.springframework5.sfg_pet_clinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +13,15 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
+                      SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -79,6 +79,14 @@ public class DataLoader implements CommandLineRunner {
         System.out.println(owner.getId()+" "+owner.getFirstName()+" "+
                 owner.getLastName()+" "+owner.getAddress()+" "+owner.getCity()+
                 owner.getTelephone()+" "+owner.getPetSet().iterator().next().getName());
+        //Add a visit for the pet
+        Visit myVisit = new Visit();
+        myVisit.setDate(LocalDate.now());
+        myVisit.setDescription("Not Eating well");
+        myVisit.setPet(myPet);
+        visitService.save(myVisit);
+        System.out.println("Loaded Visits - "+myVisit.getDescription()+" "+myVisit.getDate()+" "+myVisit.getPet().getName());
+
         owner = new Owner();
 //        owner.setId(2L);
         owner.setFirstName("Rahul");
