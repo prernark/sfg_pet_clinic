@@ -14,7 +14,6 @@ public class OwnerServiceSDJPA extends AbstractServiceSDJPA<Owner, Long> impleme
     private final OwnerRepository ownerRepository;
 
     public OwnerServiceSDJPA(OwnerRepository ownerRepository) {
-//        super(ownerRepository);
         this.ownerRepository = ownerRepository;
     }
 

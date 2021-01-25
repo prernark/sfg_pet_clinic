@@ -17,7 +17,7 @@ public class VetServiceSDJPA extends AbstractServiceSDJPA<Vet, Long> implements 
     }
 
     @Override
-    CrudRepository getCrudRepository() {
+    CrudRepository<Vet, Long> getCrudRepository() {
         return vetRepository;
     }
 }
