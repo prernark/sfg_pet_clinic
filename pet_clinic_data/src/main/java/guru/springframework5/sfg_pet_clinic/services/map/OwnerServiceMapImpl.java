@@ -5,12 +5,14 @@ import guru.springframework5.sfg_pet_clinic.model.Pet;
 import guru.springframework5.sfg_pet_clinic.services.OwnerService;
 import guru.springframework5.sfg_pet_clinic.services.PetService;
 import guru.springframework5.sfg_pet_clinic.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
 
 @Service
+@Profile({"default", "mapservice"}) //will be active if profile is mapservice or default which means nothing specified
 public class OwnerServiceMapImpl extends AbstractMapService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
