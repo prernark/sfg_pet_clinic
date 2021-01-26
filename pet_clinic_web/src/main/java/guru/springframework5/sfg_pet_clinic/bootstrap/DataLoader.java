@@ -41,6 +41,10 @@ public class DataLoader implements CommandLineRunner {
 
         PetType cat = new PetType();
         cat.setName("Cat");
+
+        //Since we used the @Builder annotation on PetType we could also write the above as...
+//        cat.builder().name("Cat").build();
+
         PetType savedCatPetType = petTypeService.save(cat);
         System.out.println("PetTypes loaded....");
         System.out.println(petTypeService.toString());
@@ -63,6 +67,11 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Loading owners....");
         Owner owner = new Owner();
 //        owner.setId(1L);
+
+        //Using Builder
+        //owner.builder().firstName("Prerna").lastName("Gupta").address("Pune").city("Pune").telephone("666666").build();
+        //Dont know how to set the Set of Pets
+
         owner.setFirstName("Prerna");
         owner.setLastName("Gupta");
         owner.setAddress("123 Sutton Lane");
