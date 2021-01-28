@@ -58,11 +58,23 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner, Long> impleme
     public Owner findByLastName(String lastName) {
 //        Predicate<Owner> predicate = owner->owner.getLastName().equalsIgnoreCase(lastName);
 //        map.entrySet().stream().filter(predicate).findFirst();
-//        map.entrySet().forEach(entry->entry.getValue().getLastName().equalsIgnoreCase(lastName));
-        Optional<Map.Entry<Long, Owner>> valueFound = map.entrySet().stream().filter(longOwnerEntry -> longOwnerEntry.getValue().getLastName().equalsIgnoreCase(lastName)).findFirst();
+//        map.entrySet().forEach(entry->entry.getValue().getLastName().equalsIgnoreCase(lastName)); //This will not work as returns void
+        //OR
+        Optional<Map.Entry<Long, Owner>> valueFound = map.entrySet()
+                                                         .stream()
+                                                         .filter(owner -> owner.getValue().getLastName().equalsIgnoreCase(lastName))
+                                                         .findFirst();
         if (valueFound.isPresent())
             return valueFound.get().getValue();
         return null;
+//        OR
+//        re
+//        turn this.findAll()
+//                .stream()
+//                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+//                .findFirst()
+//                .orElse(null);
+
     }
 
     @Override
