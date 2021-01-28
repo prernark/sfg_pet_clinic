@@ -14,14 +14,14 @@ public class OwnerController {
         this.ownerService = ownerService;
     }
 
-    //    @RequestMapping({"/owner", "/owner/index", "/owner/index.html"})
+    //    @RequestMapping({"/owners", "/owners/index", "/owners/index.html"})
     @RequestMapping({"", "/", "/index", "/index.html"}) //Dont need above coz of RequestMapping above
     public String listOfOwners(Model model) {
         model.addAttribute("owners", ownerService.findAll());
         return "Owners/index";//This string corresponds to index.html in the Owner dir of templates
     }
 
-    @RequestMapping("/find") //This will work for /owner/find
+    @RequestMapping("/find") //This will work for /owners/find
     public String findOwners(Model model) {
 //        model.addAttribute("owners", ownerService.findAll());
         return "notimplemented";//This string corresponds to notimplemented.html in templates
