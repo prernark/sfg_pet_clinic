@@ -1,4 +1,6 @@
 # sfg_pet_clinic
-https://circleci.com/gh/prernark/sfg_pet_clinic.svg?style=svg
+
+
+[![CircleCI](https://circleci.com/gh/springframeworkguru/sfg-pet-clinic.svg?style=svg)](https://circleci.com/gh/springframeworkguru/sfg-pet-clinic)
 
 SpringFrameworkGuru Pet Clinic 
