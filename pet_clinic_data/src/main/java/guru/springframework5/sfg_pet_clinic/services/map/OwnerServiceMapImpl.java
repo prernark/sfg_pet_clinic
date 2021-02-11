@@ -5,12 +5,16 @@ import guru.springframework5.sfg_pet_clinic.model.Pet;
 import guru.springframework5.sfg_pet_clinic.services.OwnerService;
 import guru.springframework5.sfg_pet_clinic.services.PetService;
 import guru.springframework5.sfg_pet_clinic.services.PetTypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Profile({"default", "mapservice"}) //will be active if profile is mapservice or default which means nothing specified
 public class OwnerServiceMapImpl extends AbstractMapService<Owner, Long> implements OwnerService {
@@ -75,6 +79,16 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner, Long> impleme
 //                .findFirst()
 //                .orElse(null);
 
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
+        log.debug("In mapservice");
+
+        return map.entrySet().stream()
+                .filter(entry -> entry.getValue().getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .map(x->x.getValue())
+                .collect(Collectors.toList());
     }
 
     @Override

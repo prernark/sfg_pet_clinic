@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Profile("springdatajpa")
 //@Primary
@@ -25,6 +27,11 @@ public class OwnerServiceSDJPA extends AbstractServiceSDJPA<Owner, Long> impleme
     //we will implement this in the OwnerRepository
     public Owner findByLastName(String lastName) {
         return ownerRepository.findByLastName(lastName);
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
+        return ownerRepository.findAllByLastNameLike(lastName);
     }
 
 
