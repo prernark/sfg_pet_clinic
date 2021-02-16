@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor //Above 2 needed to use Builder in children Person and Owner
+@AllArgsConstructor //This and Above needed to use Builder in children Person and Owner
 @MappedSuperclass
 public class Person extends BaseEntity {
     //Constructor needed to use Builder annotation in child Owner.
