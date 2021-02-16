@@ -49,6 +49,7 @@ public class PetController {
     public String openAddNewPetForm(Owner owner, Model model){
         Pet pet = new Pet();
         owner.getPetSet().add(pet);
+        pet.setOwner(owner); //set the owner for the pet else displays null on the form.
         model.addAttribute("pet", pet);
         return PETS_CREATE_OR_UPDATE_FORM;
     }
@@ -59,13 +60,14 @@ public class PetController {
             result.rejectValue("name", "duplicate", "aleady exists");
         }
         owner.getPetSet().add(pet);
+        pet.setOwner(owner); //set the owner for the pet else displays null on the form.
         if (result.hasErrors()){
             model.addAttribute("pet", pet);
             return PETS_CREATE_OR_UPDATE_FORM;
         }
         else{
             petService.save(pet);
-            return "redirect:/owners/ownerDetails";
+            return "redirect:/owners/"+owner.getId();
         }
     }
 
