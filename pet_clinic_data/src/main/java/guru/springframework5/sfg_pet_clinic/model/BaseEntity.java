@@ -23,6 +23,9 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public boolean isNew(){ //This nis used to indicate a new Owner. Used in createOrUpdateOwnerForm.html
+        return this.id == null;
+    }
 //    public Long getId() {
 //        return id;
 //    }
