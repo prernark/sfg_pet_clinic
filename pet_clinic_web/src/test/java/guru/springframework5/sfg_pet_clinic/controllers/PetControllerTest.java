@@ -94,7 +94,7 @@ public class PetControllerTest {
 
         mockMvc.perform(post("/owners/1/pets/1/edit"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/owners/ownerDetails"))
+                .andExpect(view().name("redirect:/owners/1"))
                 .andExpect(model().attributeExists("pet"));
         verify(ownerService, times(1)).findById(anyLong());
     }
