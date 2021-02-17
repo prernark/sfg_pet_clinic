@@ -12,9 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.*;
@@ -41,8 +42,12 @@ class OwnerControllerTest {
     @BeforeEach
     void setUp() {
         ownerSet = new HashSet<>();
-        ownerSet.add(Owner.builder().id(1L).build());
-        ownerSet.add(Owner.builder().id(2L).build());
+        Owner owner1 = Owner.builder().id(1L).lastName("Smith").build();
+        Owner owner2 = Owner.builder().id(2L).lastName("Jones").build();
+        Owner owner3 = Owner.builder().id(3L).lastName("Smith").build();
+        ownerSet.add(owner1);
+        ownerSet.add(owner2);
+        ownerSet.add(owner3);
 
         mockMvc = MockMvcBuilders
                   .standaloneSetup(ownerController)
@@ -90,14 +95,14 @@ class OwnerControllerTest {
     }
 
     @Test
-    public void processFindOwnerNoLastname() throws Exception {
+    public void processFindOwnerReturnsAll() throws Exception { //nothing entered return all owners
         when(ownerService.findAllByLastNameLike(anyString()))
                 .thenReturn(ownerSet.stream().collect(Collectors.toList()));
 
-        mockMvc.perform(get("/owners"))
+        mockMvc.perform(get("/owners").param("lastName", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/ownersList"))
-                .andExpect(model().attribute("owners", hasSize(2)));
+                .andExpect(model().attribute("owners", hasSize(3)));
 
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
         verify(ownerService, times(1)).findAllByLastNameLike(argumentCaptor.capture());
@@ -107,23 +112,65 @@ class OwnerControllerTest {
 
     @Test
     public void processFindOwnerReturnsMany() throws Exception{
+        Predicate<Owner> ownerPredicate =  owner -> owner.getLastName().equalsIgnoreCase("Smith");
         when(ownerService.findAllByLastNameLike(anyString()))
-                         .thenReturn(Arrays.asList(Owner.builder().id(1L).build(),Owner.builder().id(2L).build()));
+                         .thenReturn(ownerSet.stream().filter(ownerPredicate).collect(Collectors.toList()));
 
-        mockMvc.perform(get("/owners"))
+        mockMvc.perform(get("/owners").param("lastName", "Sm"))
                .andExpect(status().isOk())
                .andExpect(view().name("owners/ownersList"))
                .andExpect(model().attribute("owners", hasSize(2)));
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(ownerService, times(1)).findAllByLastNameLike(argumentCaptor.capture());
+        String lastName = argumentCaptor.getValue();
+        assertEquals("%Sm%", lastName);
     }
 
     @Test
     public void processFindOwnerReturnsOne() throws Exception{
-        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(Arrays.asList(Owner.builder().id(1L).build()));
-
-        mockMvc.perform(get("/owners"))
+        Predicate<Owner> ownerPredicate =  owner -> owner.getLastName().equalsIgnoreCase("Jones");
+        when(ownerService.findAllByLastNameLike(anyString()))
+//                         .thenReturn(Arrays.asList(Owner.builder().id(1L).build()));
+                           .thenReturn(ownerSet.stream().filter(ownerPredicate).collect(Collectors.toList()));
+        mockMvc.perform(get("/owners").param("lastName", "on"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/owners/1"));
+                .andExpect(model().attribute("owners", hasSize(1)))
+                .andExpect(view().name("redirect:/owners/2"));
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(ownerService, times(1)).findAllByLastNameLike(argumentCaptor.capture());
+        String lastName = argumentCaptor.getValue();
+        assertEquals("%on%", lastName);
     }
+
+    @Test
+    public void processFindOwnerReturnsNone() throws Exception {
+        when(ownerService.findAllByLastNameLike(anyString()))
+                .thenReturn(new ArrayList<>());
+        mockMvc.perform(get("/owners").param("lastName", "Rob"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("owners", hasSize(0)))
+                .andExpect(view().name("owners/findOwners"));
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(ownerService, times(1)).findAllByLastNameLike(argumentCaptor.capture());
+        String lastName = argumentCaptor.getValue();
+        assertEquals("%Rob%", lastName);
+    }
+
+    //Dont know how to test for lastName==null
+//    @Test
+//    public void processFindOwnerLastNameNull() throws Exception {
+//        when(ownerService.findAllByLastNameLike(anyString()))
+//                         .thenReturn(ownerSet.stream().collect(Collectors.toList()));
+//        mockMvc.perform(get("/owners"). param("lastName", null))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("owners/ownersList"))
+//                .andExpect(model().attribute("owners", hasSize(3)));
+//
+//        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+//        verify(ownerService, times(1)).findAllByLastNameLike(argumentCaptor.capture());
+//        String lastName = argumentCaptor.getValue();
+//        assertEquals("%%", lastName);
+//    }
 
     @Test
     public void openCreateOwnerForm() throws Exception{
