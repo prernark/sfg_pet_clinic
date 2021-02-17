@@ -78,7 +78,7 @@ public class PetController {
     }
 
     @PostMapping("/pets/{id}/edit")
-    public String processUpdatePetForm(Owner owner, Pet pet, BindingResult result, Model model){
+    public String processUpdatePetForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
         if (result.hasErrors()){
             pet.setOwner(owner);
             model.addAttribute("pet", pet);
