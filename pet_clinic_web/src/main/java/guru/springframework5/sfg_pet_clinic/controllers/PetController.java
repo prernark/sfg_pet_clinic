@@ -48,8 +48,8 @@ public class PetController {
     @GetMapping("/pets/new")
     public String openAddNewPetForm(Owner owner, Model model){
         Pet pet = new Pet();
-        owner.getPetSet().add(pet);
         pet.setOwner(owner); //set the owner for the pet else displays null on the form.
+        owner.getPetSet().add(pet);
         model.addAttribute("pet", pet);
         return PETS_CREATE_OR_UPDATE_FORM;
     }
@@ -59,8 +59,8 @@ public class PetController {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name", "duplicate", "aleady exists");
         }
-        owner.getPetSet().add(pet);
         pet.setOwner(owner); //set the owner for the pet else displays null on the form.
+        owner.getPetSet().add(pet);
         if (result.hasErrors()){
             model.addAttribute("pet", pet);
             return PETS_CREATE_OR_UPDATE_FORM;
@@ -78,16 +78,17 @@ public class PetController {
     }
 
     @PostMapping("/pets/{id}/edit")
-    public String processUpdatePetForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
+    public String processUpdatePetForm(Owner owner, Pet pet, BindingResult result, Model model){
         if (result.hasErrors()){
             pet.setOwner(owner);
             model.addAttribute("pet", pet);
             return PETS_CREATE_OR_UPDATE_FORM;
         }
         else{
-            owner.getPetSet().add(pet);
+            pet.setOwner(owner);
+//            owner.getPetSet().add(pet);
             petService.save(pet);
-            return "redirect:/owners/ownerDetails";
+            return "redirect:/owners/"+owner.getId();
         }
     }
 
